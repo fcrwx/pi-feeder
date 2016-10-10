@@ -53,6 +53,7 @@ app.get('/feed/enabled/off', function (req, res) {
   console.log('turning enabled off');
   res.send('disabled');
   enabled = false;
+  power(false);
 });
 
 app.get('/feed/timer/:seconds', function (req, res) {
@@ -96,11 +97,11 @@ var checkStopTime = function() {
   console.log('(current: ' + currentTime + ', stop: ' + stopTime + ', enabled: ' + enabled + ', power: ' + powerOn + ')');
 
   if ((stopTime >= currentTime) && (enabled) && (!powerOn)) {
-    power(true)
+    power(true);
   }
 
   if ((stopTime < currentTime) && (enabled) && (powerOn)) {
-    power(false)
+    power(false);
   }
 }
 
