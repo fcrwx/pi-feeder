@@ -10,8 +10,8 @@ var pollingInterval = 2000; // ms
 var port = 3000;
 
 var pythonBinary = '/usr/bin/python';
-var powerOnScript = 'power-on.py';
-var powerOffScript = 'power-off.py';
+var powerOnScript = '/home/pi/feeder/power-on.py';
+var powerOffScript = '/home/pi/feeder/power-off.py';
 
 app.get('/feed', function (req, res) {
   res.send('Hello World!');
@@ -119,9 +119,9 @@ var power = function(on) {
   }
 
   if (script !== '') {
-    // var cmd = pythonBinary + " " + script;
-    // var child = require('child_process').exec(cmd);
-    // child.stdout.pipe(process.stdout);
+    var cmd = pythonBinary + " " + script;
+    var child = require('child_process').exec(cmd);
+    child.stdout.pipe(process.stdout);
   }
 }
 
