@@ -10,5 +10,10 @@
   "license": "MIT",
   "dependencies": {
     "express": "^4.14.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:fcrwx/feeder.git"
   }
 }
+
