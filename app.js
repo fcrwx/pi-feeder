@@ -14,53 +14,53 @@ var powerOnScript = 'power-on.py';
 var powerOffScript = 'power-off.py';
 
 app.get('/feed', function (req, res) {
-	res.send('Hello World!');
+  res.send('Hello World!');
 });
 
 app.get('/feed/timestamp', function (req, res) {
   console.log('received timestamp request');
   var now = new Date(Date.now()).toLocaleString();
-	res.send(now);
+  res.send(now);
 });
 
 app.get('/feed/status', function (req, res) {
   console.log('received feed status request');
   if (powerOn) {
-	  res.send('1');
+    res.send('1');
   }
   else {
-	  res.send('0');
+    res.send('0');
   }  
 });
 
 app.get('/feed/enabled', function (req, res) {
   console.log('received feed enabled request');
   if (enabled) {
-	  res.send('1');
+    res.send('1');
   }
   else {
-	  res.send('0');
+    res.send('0');
   }  
 });
 
 app.get('/feed/enabled/on', function (req, res) {
   console.log('turning enabled on');
-	res.send('enabled');
+  res.send('enabled');
   enabled = true;
 });
 
 app.get('/feed/enabled/off', function (req, res) {
   console.log('turning enabled off');
-	res.send('disabled');
+  res.send('disabled');
   enabled = false;
 });
 
 app.get('/feed/timer/:seconds', function (req, res) {
-	var seconds = req.params.seconds;
+  var seconds = req.params.seconds;
 
   if (enabled) {
-  	res.send('executing for ' + req.params.seconds + ' seconds');
-  	console.log('executing for ' + req.params.seconds + ' seconds');
+    res.send('executing for ' + req.params.seconds + ' seconds');
+    console.log('executing for ' + req.params.seconds + ' seconds');
 
     var currentTime = timestamp();
     var stopTime = currentTime + seconds * 1000;
@@ -72,13 +72,13 @@ app.get('/feed/timer/:seconds', function (req, res) {
 });
 
 app.listen(port, function () {
-	console.log('listening on port ' + port);
+  console.log('listening on port ' + port);
   console.log('initializing stopTime');
   setStopTime(timestamp());
 });
 
 setInterval(function() {
-	checkStopTime();
+  checkStopTime();
 }, pollingInterval);
 
 var timestamp = function() {
@@ -87,7 +87,7 @@ var timestamp = function() {
 
 var setStopTime = function(stamp) {
   stopTime = stamp;
-	console.log("set stop time: " + stamp);
+  console.log("set stop time: " + stamp);
 }
 
 var checkStopTime = function() {
