@@ -44,3 +44,5 @@ endpoints:
 
 crontab example, curl http://<host>/feed
 
+rc.local change
+
