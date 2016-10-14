@@ -15,7 +15,7 @@ var powerOnScript = '/home/pi/feeder/power-on.py';
 var powerOffScript = '/home/pi/feeder/power-off.py';
 
 winston.add(require('winston-daily-rotate-file'), {
-  filename: 'feeder-log',
+  filename: __dirname + '/feeder-log',
   datePattern: '.yyyy-MM-dd',
   timestamp: tsFormat,
   prepend: false,
