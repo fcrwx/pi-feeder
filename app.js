@@ -1,30 +1,40 @@
 #!/usr/bin/env node
 
+var winston = require('winston');
 var express = require('express');
 
 var app = express();
 
 var powerOn = false;
 var enabled = true;
-var pollingInterval = 2000; // ms
+var pollingInterval = 1000; // ms
 var port = 3000;
 
 var pythonBinary = '/usr/bin/python';
 var powerOnScript = '/home/pi/feeder/power-on.py';
 var powerOffScript = '/home/pi/feeder/power-off.py';
 
+winston.add(require('winston-daily-rotate-file'), {
+  filename: 'feeder-log',
+  datePattern: '.yyyy-MM-dd',
+  timestamp: tsFormat,
+  prepend: false,
+  json: false,
+  count: 7
+});
+
 app.get('/feed', function (req, res) {
   res.send('Hello World!');
 });
 
 app.get('/feed/timestamp', function (req, res) {
-  console.log('received timestamp request');
+  winston.info('received timestamp request');
   var now = new Date(Date.now()).toLocaleString();
   res.send(now);
 });
 
 app.get('/feed/status', function (req, res) {
-  console.log('received feed status request');
+  winston.info('received feed status request');
   if (powerOn) {
     res.send('1');
   }
@@ -34,7 +44,7 @@ app.get('/feed/status', function (req, res) {
 });
 
 app.get('/feed/enabled', function (req, res) {
-  console.log('received feed enabled request');
+  winston.info('received feed enabled request');
   if (enabled) {
     res.send('1');
   }
@@ -44,13 +54,13 @@ app.get('/feed/enabled', function (req, res) {
 });
 
 app.get('/feed/enabled/on', function (req, res) {
-  console.log('turning enabled on');
+  winston.info('turning enabled on');
   res.send('enabled');
   enabled = true;
 });
 
 app.get('/feed/enabled/off', function (req, res) {
-  console.log('turning enabled off');
+  winston.info('turning enabled off');
   res.send('disabled');
   enabled = false;
   power(false);
@@ -61,7 +71,7 @@ app.get('/feed/timer/:seconds', function (req, res) {
 
   if (enabled) {
     res.send('executing for ' + req.params.seconds + ' seconds');
-    console.log('executing for ' + req.params.seconds + ' seconds');
+    winston.info('executing for ' + req.params.seconds + ' seconds');
 
     var currentTime = timestamp();
     var stopTime = currentTime + seconds * 1000;
@@ -73,8 +83,8 @@ app.get('/feed/timer/:seconds', function (req, res) {
 });
 
 app.listen(port, function () {
-  console.log('listening on port ' + port);
-  console.log('initializing stopTime');
+  winston.info('listening on port ' + port);
+  winston.info('initializing stopTime');
   setStopTime(timestamp());
 });
 
@@ -88,13 +98,13 @@ var timestamp = function() {
 
 var setStopTime = function(stamp) {
   stopTime = stamp;
-  console.log("set stop time: " + stamp);
+  winston.info("set stop time: " + stamp);
 }
 
 var checkStopTime = function() {
   var currentTime = timestamp();
   
-  console.log('(current: ' + currentTime + ', stop: ' + stopTime + ', enabled: ' + enabled + ', power: ' + powerOn + ')');
+  winston.info('(current: ' + currentTime + ', stop: ' + stopTime + ', enabled: ' + enabled + ', power: ' + powerOn + ')');
 
   if ((stopTime >= currentTime) && (enabled) && (!powerOn)) {
     power(true);
@@ -109,12 +119,12 @@ var power = function(on) {
   var script = '';
   if (on) {
     powerOn = true;
-    console.log('sending ON signal');
+    winston.info('sending ON signal');
     script = powerOnScript;
   }
   else {
     powerOn = false;
-    console.log('sending OFF signal');
+    winston.info('sending OFF signal');
     script = powerOffScript;
   }
 
@@ -123,5 +133,9 @@ var power = function(on) {
     var child = require('child_process').exec(cmd);
     child.stdout.pipe(process.stdout);
   }
+}
+
+var tsFormat = function() {
+  return new Date().toLocaleTimeString();
 }
 
