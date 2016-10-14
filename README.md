@@ -16,7 +16,7 @@ Here are the instructions I used to wire up the Pi: https://thepihut.com/blogs/r
 
 I used NetIO UI-Designer (http://netio.davideickhoff.de/) to create a basic app. I added controls for all the endpoints listed below and looks like this:
 
-<img src="screenshot.png" alt="NetIO App Screenshot" style="width: 200px;"/>
+<img src="screenshot.png" alt="NetIO App Screenshot" width="200px"/>
 
 ### Remote Access
 
@@ -46,3 +46,7 @@ The application is set to run every time the Pi boots via the following line in 
 ```
 /home/pi/feeder/app.js &
 ```
+
+### Logging
+
+Logs are placed in the application directory and rotate daily. A maximum of seven logs are kept.
