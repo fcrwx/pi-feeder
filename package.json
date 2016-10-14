@@ -1,7 +1,7 @@
 {
-  "name": "feeder",
+  "name": "pi-feeder",
   "version": "1.0.0",
-  "description": "Feeder",
+  "description": "Pi Feeder",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -16,6 +16,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:fcrwx/feeder.git"
+    "url": "git@github.com:fcrwx/pi-feeder.git"
   }
 }
