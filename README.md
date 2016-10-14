@@ -14,24 +14,24 @@ Here are the instructions I used to wire up the Pi: https://thepihut.com/blogs/r
 
 ### Software
 
-I used NetIO UI-Designer (http://netio.davideickhoff.de/) to create a basic app. I added controls for all the endpoints listed below and looks like this:
+I used NetIO UI-Designer (http://netio.davideickhoff.de/) to create a basic app. I added controls for all the endpoints listed below and it looks like this:
 
 <img src="screenshot.png" alt="NetIO App Screenshot" width="200px"/>
-
-### Remote Access
-
-I configured my router with port forwarding to send all port 8080 requests to port 3000 (the express server on the Pi). This allows me to control the feeder when I am not at home.
 
 ### Endpoints
 
 | Endpoint             | Description                                     |
 |:-------------------- |:----------------------------------------------- |
 | /feed/status         | Current power status (0 = OFF, 1 = ON)          |
-| /feed/enabled        | System enabled (0 = OFF, 1 = ON)                |
+| /feed/enabled        | Current enabled status (0 = OFF, 1 = ON)        |
 | /feed/enabled/on     | Enable the system                               |
 | /feed/enabled/off    | Disable the system                              |
 | /feed/timestamp      | Current system time                             |
 | /feed/timer/:seconds | Turn power on for the given number of seconds   |
+
+### Remote Access
+
+I configured my router with port forwarding to send all port 8080 requests to port 3000 (the express server on the Pi). This allows me to control the feeder when I am not at home.
 
 ### crontab
 
