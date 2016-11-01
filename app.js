@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 
+// TODO: save enabled state to disk so state is preserved over reboots
+// TODO: get log time to be local, not UTC
+
 var winston = require('winston');
 var express = require('express');
 
