@@ -20,7 +20,9 @@ var powerOffScript = '/home/pi/feeder/power-off.py';
 winston.add(require('winston-daily-rotate-file'), {
   filename: __dirname + '/feeder-log',
   datePattern: '.yyyy-MM-dd',
-  timestamp: tsFormat,
+  timestamp: function() { 
+    return new Date().toLocaleTimeString();
+  },
   prepend: false,
   json: false,
   count: 7
@@ -136,9 +138,5 @@ var power = function(on) {
     var child = require('child_process').exec(cmd);
     child.stdout.pipe(process.stdout);
   }
-}
-
-var tsFormat = function() {
-  return new Date().toLocaleTimeString();
 }
 
